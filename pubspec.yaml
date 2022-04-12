@@ -34,9 +34,8 @@ dependencies:
   url_launcher:
   share_plus:
   animated_text_kit:
-  google_mobile_ads:
   get_it:
-
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:

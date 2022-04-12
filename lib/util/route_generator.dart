@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tibetan_game/module/hangman_game/hangman_game_page.dart';
 import 'package:tibetan_game/module/home.dart';
 
 class RouteGenerator {
@@ -10,6 +11,10 @@ class RouteGenerator {
       case HomePage.routeName:
         return CupertinoPageRoute(
           builder: (_) => const HomePage(),
+        );
+      case HangManGamePage.routeName:
+        return CupertinoPageRoute(
+          builder: (_) => const HangManGamePage(),
         );
       default:
         return _errorRoute();
