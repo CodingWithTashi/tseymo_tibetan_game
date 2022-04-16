@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tibetan_game/module/hangman_game/hangman_game_page.dart';
 import 'package:tibetan_game/module/home.dart';
+import 'package:tibetan_game/module/spelling_bee/speeling_bee_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -15,6 +16,10 @@ class RouteGenerator {
       case HangManGamePage.routeName:
         return CupertinoPageRoute(
           builder: (_) => const HangManGamePage(),
+        );
+      case SpellingBeePage.routeName:
+        return CupertinoPageRoute(
+          builder: (_) => const SpellingBeePage(),
         );
       default:
         return _errorRoute();

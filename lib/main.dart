@@ -22,10 +22,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
+    /* SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
-    ]);
+    ]);*/
     return MaterialApp(
       title: 'Tseymo - Tibetan Game',
       theme: ThemeData(

@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:tibetan_game/model/game.dart';
 import 'package:tibetan_game/module/hangman_game/hangman_game_page.dart';
+import 'package:tibetan_game/module/spelling_bee/speeling_bee_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = 'home';
@@ -18,45 +19,47 @@ class _HomePageState extends State<HomePage> {
   final CarouselController _controller = CarouselController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/images/ic_launcher.png',
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-            child: Container(
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
-            ),
-          ),
-        ),
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CarouselSlider(
-                items: _getGameWidgetList(),
-                options: CarouselOptions(
-                  scrollPhysics: BouncingScrollPhysics(),
-                  enableInfiniteScroll: false,
-                  enlargeCenterPage: true,
-                  aspectRatio: 3,
-                  viewportFraction: 0.5,
+    return Scaffold(body: OrientationBuilder(builder: (context, orientation) {
+      return Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/ic_launcher.png',
                 ),
-                carouselController: _controller,
+                fit: BoxFit.cover,
               ),
-            ],
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
+              ),
+            ),
           ),
-        ),
-      ],
-    ));
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CarouselSlider(
+                  items: _getGameWidgetList(),
+                  options: CarouselOptions(
+                    scrollPhysics: BouncingScrollPhysics(),
+                    enableInfiniteScroll: false,
+                    enlargeCenterPage: true,
+                    aspectRatio: orientation == Orientation.portrait ? 1.8 : 3,
+                    viewportFraction:
+                        orientation == Orientation.portrait ? 0.7 : 0.5,
+                  ),
+                  carouselController: _controller,
+                )
+              ],
+            ),
+          ),
+        ],
+      );
+    }));
   }
 
   _getGameWidgetList() => Game.gameList()
@@ -104,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                 Center(
                   child: IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, HangManGamePage.routeName);
+                      Navigator.pushNamed(context, SpellingBeePage.routeName);
                     },
                     icon: Icon(
                       Icons.play_circle_fill_outlined,
