@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tibetan_game/module/home.dart';
-import 'package:tibetan_game/util/route_generator.dart';
+import 'package:tibetan_game/module/spelling_bee/provider/controller.dart';
+import 'package:tibetan_game/module/spelling_bee/speeling_bee_page.dart';
 import 'package:tibetan_game/util/service_locator.dart';
 
 void main() async {
@@ -12,7 +12,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   GetIt.I.isReady<SharedPreferences>().then((_) {
-    runApp(MyApp());
+    runApp(ChangeNotifierProvider<Controller>(
+      create: (BuildContext context) => Controller(),
+      child: MyApp(),
+    ));
   });
 }
 
@@ -30,12 +33,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tseymo - Tibetan Game',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'jomolhari',
-      ),
-      initialRoute: HomePage.routeName,
-      onGenerateRoute: RouteGenerator.generateRoute,
-      home: const HomePage(),
+          primarySwatch: Colors.blue,
+          fontFamily: 'jomolhari',
+          textTheme: TextTheme(
+              headline1: TextStyle(
+            fontFamily: 'jomolhari',
+            fontSize: 60,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ))),
+      //initialRoute: HomePage.routeName,
+      //onGenerateRoute: RouteGenerator.generateRoute,
+      home: const SpellingBeePage(),
     );
   }
 }
