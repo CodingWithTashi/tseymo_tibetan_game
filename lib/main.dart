@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeRight,
     ]);*/
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Tseymo - Tibetan Game',
       theme: ThemeData(
         primarySwatch: Colors.blue,
