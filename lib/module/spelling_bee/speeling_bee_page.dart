@@ -22,68 +22,87 @@ class _SpellingBeePageState extends State<SpellingBeePage> {
   @override
   void initState() {
     CommonUtil.setPortrait();
-    final r = Random().nextInt(_words.length);
-    _word = _words[r];
-    _dropWord = _words[r];
-    final s = _word.characters.toList()..shuffle();
-    _word = s.join();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<Controller>(context, listen: false)
-          .setUp(total: _word.length);
-    });
+    //_generateWord();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Container(
-              color: Colors.red,
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.blue,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:
-                    _dropWord.characters.map((e) => Drop(letter: e)).toList(),
+      body: Selector<Controller, bool>(
+        selector: (_, controller) => controller.generateWord,
+        builder: (_, generate, __) {
+          if (generate) {
+            if (_words.isNotEmpty) {
+              _generateWord();
+            }
+          }
+          return Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  color: Colors.red,
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.green,
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.yellow,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: _word.characters
-                    .map((e) => Drag(
-                          letter: e,
-                        ))
-                    .toList(),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: Colors.blue,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _dropWord.characters
+                        .map((e) => Drop(letter: e))
+                        .toList(),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.orange,
-            ),
-          )
-        ],
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: Colors.green,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: Colors.yellow,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: _word.characters
+                        .map((e) => Drag(
+                              letter: e,
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  color: Colors.orange,
+                ),
+              )
+            ],
+          );
+        },
       ),
     );
+  }
+
+  void _generateWord() {
+    final r = Random().nextInt(_words.length);
+    _word = _words[r];
+    _dropWord = _words[r];
+    _words.removeAt(r);
+
+    final s = _word.characters.toList()..shuffle();
+    _word = s.join();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<Controller>(context, listen: false)
+          .setUp(total: _word.length);
+      Provider.of<Controller>(context, listen: false)
+          .requestWord(request: false);
+    });
   }
 }

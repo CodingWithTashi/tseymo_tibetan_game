@@ -29,7 +29,7 @@ class _DragState extends State<Drag> {
                     _accepted = true;
                     setState(() {});
                     Provider.of<Controller>(context, listen: false)
-                        .incrementLetters();
+                        .incrementLetters(context: context);
                   }
                 },
                 feedback: Text(
