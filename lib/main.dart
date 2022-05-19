@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tibetan_game/module/home.dart';
 import 'package:tibetan_game/module/spelling_bee/provider/controller.dart';
 import 'package:tibetan_game/module/spelling_bee/speeling_bee_page.dart';
+import 'package:tibetan_game/util/route_generator.dart';
 import 'package:tibetan_game/util/service_locator.dart';
 
 void main() async {
@@ -42,9 +44,8 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ))),
-      //initialRoute: HomePage.routeName,
-      //onGenerateRoute: RouteGenerator.generateRoute,
-      home: const SpellingBeePage(),
+      initialRoute: SpellingBeePage.routeName,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

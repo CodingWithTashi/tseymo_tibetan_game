@@ -6,6 +6,7 @@ import 'package:tibetan_game/module/spelling_bee/bee_constant.dart';
 import 'package:tibetan_game/module/spelling_bee/provider/controller.dart';
 import 'package:tibetan_game/module/spelling_bee/widget/drag.dart';
 import 'package:tibetan_game/module/spelling_bee/widget/drop.dart';
+import 'package:tibetan_game/module/spelling_bee/widget/fly_in_animation.dart';
 import 'package:tibetan_game/util/common_util.dart';
 
 class SpellingBeePage extends StatefulWidget {
@@ -52,7 +53,8 @@ class _SpellingBeePageState extends State<SpellingBeePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: _dropWord.characters
-                        .map((e) => Drop(letter: e))
+                        .map((e) => FlyInAnimation(
+                            animate: true, child: Drop(letter: e)))
                         .toList(),
                   ),
                 ),
@@ -70,8 +72,11 @@ class _SpellingBeePageState extends State<SpellingBeePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: _word.characters
-                        .map((e) => Drag(
-                              letter: e,
+                        .map((e) => FlyInAnimation(
+                              animate: true,
+                              child: Drag(
+                                letter: e,
+                              ),
                             ))
                         .toList(),
                   ),

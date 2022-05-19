@@ -15,41 +15,52 @@ class _DragState extends State<Drag> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width * 0.15,
-      height: size.height * 0.15,
-      child: Center(
-        child: _accepted
-            ? SizedBox()
-            : Draggable(
-                data: widget.letter,
-                childWhenDragging: SizedBox(),
-                onDragEnd: (details) {
-                  if (details.wasAccepted) {
-                    _accepted = true;
-                    setState(() {});
-                    Provider.of<Controller>(context, listen: false)
-                        .incrementLetters(context: context);
-                  }
-                },
-                feedback: Text(
-                  widget.letter,
-                  style: Theme.of(context).textTheme.headline1?.copyWith(
-                    shadows: [
-                      Shadow(
-                        offset: Offset(3, 3),
-                        color: Colors.black.withOpacity(0.4),
-                        blurRadius: 5,
+    return Selector<Controller, bool>(
+      shouldRebuild: (previous, next) {
+        return true;
+      },
+      selector: (context, controller) => controller.generateWord,
+      builder: (_, generate, __) {
+        if (generate) {
+          _accepted = false;
+        }
+        return SizedBox(
+          width: size.width * 0.15,
+          height: size.height * 0.15,
+          child: Center(
+            child: _accepted
+                ? SizedBox()
+                : Draggable(
+                    data: widget.letter,
+                    childWhenDragging: SizedBox(),
+                    onDragEnd: (details) {
+                      if (details.wasAccepted) {
+                        _accepted = true;
+                        setState(() {});
+                        Provider.of<Controller>(context, listen: false)
+                            .incrementLetters(context: context);
+                      }
+                    },
+                    feedback: Text(
+                      widget.letter,
+                      style: Theme.of(context).textTheme.headline1?.copyWith(
+                        shadows: [
+                          Shadow(
+                            offset: Offset(3, 3),
+                            color: Colors.black.withOpacity(0.4),
+                            blurRadius: 5,
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
+                    child: Text(
+                      widget.letter,
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
                   ),
-                ),
-                child: Text(
-                  widget.letter,
-                  style: Theme.of(context).textTheme.headline1,
-                ),
-              ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
